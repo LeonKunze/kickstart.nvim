@@ -540,6 +540,7 @@ require('lazy').setup({
           --  Most Language Servers support renaming across files, etc.
           map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
 
+          map('<leader>ö', vim.lsp.buf.hover, '[h]over')
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
           map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
@@ -627,7 +628,6 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        ts_ls = {},
         --
 
         lua_ls = {
@@ -676,6 +676,18 @@ require('lazy').setup({
             require('lspconfig')[server_name].setup(server)
           end,
         },
+        denols = function()
+          require('lspconfig').denols.setup { root_dir = require('lspconfig').util.root_pattern 'deno.json' }
+        end,
+        vtsls = function()
+          require('lspconfig').vtsls.setup {
+            single_file_support = false,
+            root_dir = function()
+              return not vim.fs.root(0, { 'deno.json', 'deno.jsonc' })
+                and vim.fs.root(0, { 'tsconfig.json', 'package.json', 'jsconfig.json', 'bun.lockb', '.git' })
+            end,
+          }
+        end,
       }
     end,
   },
