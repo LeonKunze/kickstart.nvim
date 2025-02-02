@@ -154,7 +154,8 @@ vim.opt.inccommand = 'split'
 vim.opt.cursorline = false
 vim.opt.guicursor = ''
 -- Minimal number of screen lines to keep above and below the cursor.
-vim.opt.scrolloff = 7
+vim.opt.scrolloff = 8
+vim.opt.termguicolors = true
 
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
@@ -879,11 +880,19 @@ require('lazy').setup({
       -- Load the colorscheme here.
       -- Like many other themes, this one has different styles, and you could load
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      vim.cmd.colorscheme 'rose-pine-moon'
+      vim.cmd.colorscheme 'rose-pine'
 
       -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
     end,
+    config = function ()
+    require('rose-pine').setup ({
+      disable_background = true,
+      styles = {
+        italic = false,
+      },
+    })
+  end
   },
 
   -- Highlight todo, notes, etc in comments
