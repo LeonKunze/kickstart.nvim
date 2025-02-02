@@ -679,13 +679,30 @@ require('lazy').setup({
         denols = function()
           require('lspconfig').denols.setup { root_dir = require('lspconfig').util.root_pattern 'deno.json' }
         end,
-        vtsls = function()
-          require('lspconfig').vtsls.setup {
-            single_file_support = false,
-            root_dir = function()
-              return not vim.fs.root(0, { 'deno.json', 'deno.jsonc' })
-                and vim.fs.root(0, { 'tsconfig.json', 'package.json', 'jsconfig.json', 'bun.lockb', '.git' })
+        ts_ls = function()
+          require('lspconfig').ts_ls.setup {
+            capabilities = capabilities,
+            init_options = {
+              plugins = {
+                {
+                  name = '@vue/typescript-plugin',
+                  location = '/usr/local/lib/node_modules/@vue/typescript-plugin',
+                  languages = { 'javascript', 'typescript', 'vue' },
+                },
+              },
+            },
+            root_dir = function(fname)
+              -- This will use tsserver unless a deno config is present
+              local util = require 'lspconfig.util'
+              return not util.root_pattern('deno.json', 'deno.jsonc')(fname)
+                and util.root_pattern('tsconfig.json', 'package.json', 'jsconfig.json', '.git')(fname)
             end,
+            filetypes = {
+              'javascript',
+              'typescript',
+              'vue',
+            },
+            single_file_support = false, -- must set to false
           }
         end,
       }
