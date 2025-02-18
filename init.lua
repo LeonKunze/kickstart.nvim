@@ -885,14 +885,14 @@ require('lazy').setup({
       -- You can configure highlights by doing something like:
       vim.cmd.hi 'Comment gui=none'
     end,
-    config = function ()
-    require('rose-pine').setup ({
-      disable_background = true,
-      styles = {
-        italic = false,
-      },
-    })
-  end
+    config = function()
+      require('rose-pine').setup {
+        disable_background = true,
+        styles = {
+          italic = false,
+        },
+      }
+    end,
   },
 
   -- Highlight todo, notes, etc in comments
@@ -973,7 +973,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.debug',
   require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
-  require 'kickstart.plugins.autopairs',
+  -- require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
   require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
